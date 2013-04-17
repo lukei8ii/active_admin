@@ -156,6 +156,10 @@ module ActiveAdmin
       config.sidebar_sections << ActiveAdmin::SidebarSection.new(name, options, &block)
     end
 
+    def modal(name, options = {}, &block)
+      config.modal_sections << ActiveAdmin::ModalSection.new(name, options, &block)
+    end
+
     def decorate_with(decorator_class)
       # Force storage as a string. This will help us with reloading issues.
       # Assuming decorator_class.to_s will return the name of the class allows

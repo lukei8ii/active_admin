@@ -8,6 +8,7 @@ require 'active_admin/resource/naming'
 require 'active_admin/resource/scopes'
 require 'active_admin/resource/scope_to'
 require 'active_admin/resource/sidebars'
+require 'active_admin/resource/modals'
 require 'active_admin/resource/belongs_to'
 
 module ActiveAdmin
@@ -76,6 +77,7 @@ module ActiveAdmin
     include Scopes
     include ScopeTo
     include Sidebars
+    include Modals
     include Menu
     include Routes
 

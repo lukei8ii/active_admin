@@ -33,6 +33,8 @@ en:
     powered_by: "Powered by %{active_admin} %{version}"
     sidebars:
       filters: "Filters"
+    modal:
+      loading: "Loading..."
     pagination:
       empty: "No %{model} found"
       one: "Displaying <b>1</b> %{model}"
