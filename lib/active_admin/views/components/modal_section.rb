@@ -16,13 +16,13 @@ module ActiveAdmin
           text_node "
             function #{self.id}(e) {
               $.fbmodal({
-                id    : \u0027#{self.id}\u0027,
-                type  : \u0027#{@section.modal_type}\u0027,
-                title : \u0027#{@section.title}\u0027,
-                text  : \u0027#{self.id}_body\u0027,
-                href   : \u0027#{@section.href}\u0027,
-                method : \u0027#{@section.method}\u0027,
-                loading: \u0027#{I18n.t('active_admin.modal.loading')}\u0027
+                id    : &apos;#{self.id}&apos;,
+                type  : &apos;#{@section.modal_type}&apos;,
+                title : &apos;#{@section.title}&apos;,
+                text  : &apos;#{self.id}_body&apos;,
+                href   : &apos;#{@section.href}&apos;,
+                method : &apos;#{@section.method}&apos;,
+                loading: &apos;#{I18n.t('active_admin.modal.loading')}&apos;
               });
             }
           "
