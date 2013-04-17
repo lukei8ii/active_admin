@@ -1,10 +1,10 @@
 
 /* corner formatting*/
-.tl{background-image:url('../img/tl.png');}
-.tr{background-image:url('../img/tr.png');}
-.bl{background-image:url('../img/bl.png');}
-.b{background-image:url('../img/b.png');}
-.br{background-image:url('../img/br.png');}
+.tl{background-image:url(active_admin_image_path('modal/tl.png'));}
+.tr{background-image:url(active_admin_image_path('modal/tr.png'));}
+.bl{background-image:url(active_admin_image_path('modal/bl.png'));}
+.b{background-image:url(active_admin_image_path('modal/b.png'));}
+.br{background-image:url(active_admin_image_path('modal/br.png'));}
 
 
 .aa_modal{
@@ -91,7 +91,7 @@ z-index:-100;
 }
 
 .aa_modal_popup_close{
-  background: url('../img/close.gif') no-repeat 0 0;
+  background: url(active_admin_image_path('modal/close.gif')) no-repeat 0 0;
   float:right;
   height:20px;
   width:20px;
@@ -130,7 +130,7 @@ z-index:-100;
 
 .aa_modal_popup .button_inside_border_grey{
   padding:4px 6px 4px 6px;
-  background-image:url('../img/aa_modal_cancel.png');
+  background-image:url(active_admin_image_path('modal/aa_modal_cancel.png'));
   border-top:solid #ffffff 1px;
   text-align:center;
   font-weight:bold;
