@@ -13,16 +13,16 @@ module ActiveAdmin
         self.id = @section.id
 
         script do
-          text_node "
+          text_node raw "
             function #{self.id}(e) {
               $.fbmodal({
-                id    : &apos;#{self.id}&apos;,
-                type  : &apos;#{@section.modal_type}&apos;,
-                title : &apos;#{@section.title}&apos;,
-                text  : &apos;#{self.id}_body&apos;,
-                href   : &apos;#{@section.href}&apos;,
-                method : &apos;#{@section.method}&apos;,
-                loading: &apos;#{I18n.t('active_admin.modal.loading')}&apos;
+                id    : '#{self.id}',
+                type  : '#{@section.modal_type}',
+                title : '#{@section.title}',
+                text  : '#{self.id}_body',
+                href   : '#{@section.href}',
+                method : '#{@section.method}',
+                loading: '#{I18n.t('active_admin.modal.loading')}'
               });
             }
           "
