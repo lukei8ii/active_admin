@@ -1,20 +1,16 @@
-/*
- * Modal-Window for use with active_admin
- * based on http://www.ppc.bz/fbmodal/ (github.com/tekmonk/bz-FB-Modal)
-*/
 (function($) {
-  $.fbmodal = function(config) {
-    var defaults, options, fbmodal, popup, header, close, content, footer, overlay, buttons, closeit;
+  $.aa_modal = function(config) {
+    var defaults, options, aa_modal, popup, header, close, content, footer, overlay, buttons, closeit;
     var table, rowBot, rowTop, rowMid, loadgif, buttoncolor;  // more var settings, formatting
       defaults = {
         type: 'info'    //  info, warning
         , method: 'text'  // text, ajax
-        , href:  '' // the URL for ajax method
+        , href: '' // the URL for ajax method
         , loaddata: '' // the POST parameters to pass
         , title: 'My Title'
         , text: 'Default Text'
         , loading : "Loading..."  // text or html image
-        , width: 500
+        , width: 300
         , callback: function () {}
         , closeTrigger: true
         , escClose: true
@@ -23,9 +19,9 @@
         , modaltop  : "30%"
         , buttons: [{
           'text': 'Ok'
-          , 'class': 'dark'
+          , 'color': 'blue'
           , 'callback': function () {
-            $.fbmodal.close ();
+            $.aa_modal.close ();
             options.callback ();
           }
         }]
@@ -34,20 +30,20 @@
     options = $.extend(defaults, config);
 
     // if a modal is already open, close it
-    // you should be able to comment out this bit if you want many fbmodal windows
+    // you should be able to comment out this bit if you want many aa_modal windows
     if($('.aa_modal_popup').length){
-      $.fbmodal.close ();
+      $.aa_modal.close ();
       }
 
 
-    fbmodal = $('<div>', {
+    aa_modal = $('<div>', {
       'class' : 'aa_modal',
     }).css({'top':options.modaltop}).appendTo ('body');
 
 
     popup = $('<div>', {
       'class' : 'aa_modal_popup'
-    }).appendTo(fbmodal);
+    }).appendTo(aa_modal);
 
     contents = $('<div/>',{})
     if(options.title != ''){
@@ -64,14 +60,18 @@
       header.appendTo(contents);
     }
 
+
+
+    $('<div>', {
+      'class': 'fbcontainer'
+    }).appendTo(contents);
+
+
     if(options.method == 'text'){
-      content = $('<div/>', {'class': 'modal_content', 'html': options.text}).appendTo(contents);
-    }
-    else if(options.method == 'partial'){
-      content = $('#'+options.id+'_body').clone().appendTo(contents);
+      content = $('<div/>', {'class': 'fbcontent', 'html': options.text}).appendTo(contents);
     }
     else if(options.method == 'ajax'){
-      content = $('<div/>', {'class': 'modal_content', 'html': options.loading}).wrapInner('<div class="modal_loading" />').appendTo(contents);
+      content = $('<div/>', {'class': 'fbcontent', 'html': options.loading}).wrapInner('<div class="fbloading" />').appendTo(contents);
     }
 
 
@@ -80,22 +80,25 @@
     });
 
 
+
+
+
     if (options.type == 'warning') {
       options.buttons = [{
         'text': 'Yes'
-        , 'class': 'dark'
+        , 'color': 'blue'
         , 'callback': function () {
           options.callback ();
-          $.fbmodal.close ();
+          $.aa_modal.close ();
         }
       }, {
         'text': 'No'
-        , 'class': 'light'
-        , 'callback': function () { $.fbmodal.close (); }
+        , 'color': 'grey'
+        , 'callback': function () { $.aa_modal.close (); }
       }, {
         'text': 'Cancel'
-        , 'class': 'light'
-        , 'callback': function () { $.fbmodal.close ();  }
+        , 'color': 'grey'
+        , 'callback': function () { $.aa_modal.close (); }
       }];
     }
 
@@ -106,7 +109,14 @@
     if (options.buttons.length > 0) {
       for (key in options.buttons) {
         // apply correct classes based on color option
-        $('<div>', { 'text': options.buttons[key].text, 'class': 'button_'+options.buttons[key].class })
+        buttoncolor = ( options.buttons[key].color === "blue") ? "button_outside_border_blue" : "button_outside_border_grey";
+        $('<div>', { 'text': options.buttons[key].text, 'class': buttoncolor })
+          .wrapInner(function(){
+            if(options.buttons[key].color === 'blue')
+              {return '<div class="button_inside_border_blue" />';}
+            else if(options.buttons[key].color === 'grey')
+              {return '<div class="button_inside_border_grey" />';}
+            })
           .bind ('click', options.buttons[key].callback)
           .appendTo (buttons);
       }
@@ -116,11 +126,16 @@
     footer.appendTo(contents);
 
 
-    rowMid = '<div id="modal_body"></div>';
-    table = $(rowMid);
+    rowTop = '<table><tbody><tr><td class="tl"></td><td class="b"></td><td class="tr"></td></tr>';
+    rowMid = '<tr><td class="b"></td><td id="body"></td><td class="b"></td></tr>';
+    rowBot = '<tr><td class="bl"></td><td class="b"></td><td class="br"></td></tr></tbody></table>';
+
+    table = $(rowTop+rowMid+rowBot);
     table.css({'width':options.width}).appendTo(popup);
 
-    popup.find('#modal_body').append(contents);
+
+
+    popup.find('#body').append(contents);
 
     // Do later for an X close checkbox
 /*    if (options.closeTrigger) {
@@ -129,21 +144,21 @@
         , 'class': 'msgAlert_close'
         , 'click': close
       }).appendTo (header);
-    }    */
+    }   */
 
-    fbmodal.appendTo ('body');
+    aa_modal.appendTo ('body');
     fbWidth();
 
     if(options.method == 'ajax'){
       $.ajax({
         type  : "POST",
-        url    : options.href,
+        url   : options.href,
         data  : options.loaddata,
-        success  : function(getdata){
-          $('.modal_content').html(getdata);
+        success : function(getdata){
+          $('.fbcontent').html(getdata);
         },
-        error  : function(){
-          $('.modal_content').html("Failed to Load Content");
+        error : function(){
+          $('.fbcontent').html("Failed to Load Content");
         }
       });
     }
@@ -162,7 +177,7 @@
     if (options.escClose) {
       $(document).bind ('keyup.aa_modal', function (e) {
         if (e.keyCode == 27) {
-          $.fbmodal.close ();
+          $.aa_modal.close ();
         }
       });
     }
@@ -173,20 +188,21 @@
 
     function fbWidth(){
       var windowWidth=$(window).width();
-      var fbmodalWidth=$(".aa_modal").width();
-      var fbWidth=windowWidth / 2 - fbmodalWidth / 2;
+      var aa_modalWidth=$(".aa_modal").width();
+      var fbWidth=windowWidth / 2 - aa_modalWidth / 2;
       $(".aa_modal").css("left",fbWidth);
       }
 
     function close (e)
     {
+      //console.log("Closing");
       e.preventDefault ();
-      $.fbmodal.close ();
+      $.aa_modal.close ();
     }
   };
 
-  $.fbmodal.close = function () {
-    //$('.fbmodal_overlay').fadeOut ('fast', function () { $(this).remove (); });
+  $.aa_modal.close = function () {
+    //$('.aa_modal_overlay').fadeOut ('fast', function () { $(this).remove (); });
     $('.aa_modal').fadeOut('fast', function () {
       $(this).remove ();
       $('.aa_modal_overlay').remove();

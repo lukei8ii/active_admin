@@ -15,7 +15,7 @@ module ActiveAdmin
         script do
           text_node raw "
             function #{self.id}(e) {
-              $.fbmodal({
+              $.aa_modal({
                 id    : '#{self.id}',
                 type  : '#{@section.modal_type}',
                 title : '#{@section.title}',
